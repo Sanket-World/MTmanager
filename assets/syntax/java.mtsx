@@ -1,0 +1,24 @@
+{
+    name: ["Java", ".java", ".jsp"]
+    comment: {startsWith: "//"}
+    comment: {startsWith: "/*", endsWith: "*/"}
+    contains: [
+        {
+            color: "string"
+            start: {match: /"""/}
+            end: {match: /"""/}
+        }
+        {builtin: #JAVA_QUOTED_STRING#}
+        {builtin: #JAVA_NUMBER#}
+        {match: /@\w+(?:\.\w+)*/, 0: "meta"}
+        {match: /\b(?!(?:CRC32|URL)\b)[A-Z][A-Z0-9]+\b(?!\.)/, 0: "constant"}
+        {match: /\b[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+\b(?!\.)/, 0: "constant"}
+        {match: keywordsToRegex(
+                "while volatile void try true transient throws throw this synchronized switch super strictfp static"
+                "short return public protected private package null new native long interface int instanceof import"
+                "implements if goto for float finally final false extends enum else double do default continue const"
+                "class char catch case byte break boolean assert abstract var record yield sealed non-sealed permits when"
+            ), 0: "keyword"
+        }
+    ]
+}

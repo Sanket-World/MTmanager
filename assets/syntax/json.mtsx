@@ -1,0 +1,12 @@
+{
+    name: ["JSON", ".json"]
+    comment: {startsWith: "//"}
+    comment: {startsWith: "/*", endsWith: "*/"}
+    contains: [
+        {builtin: #JAVA_QUOTED_STRING#}
+        {builtin: #NORMAL_NUMBER#}
+        {match: keywordsToRegex("true false null"), 0: "keyword"}
+    ]
+    codeFormatter: #BUILT_IN_JSON_FORMATTER#
+    codeShrinker: #BUILT_IN_JSON_SHRINKER#
+}

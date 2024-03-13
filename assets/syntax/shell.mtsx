@@ -1,0 +1,82 @@
+{
+    name: ["Shell", ".sh", ".rc", ".bash", ".bashrc", ".ash", ".zsh", ".zshrc"]
+    colors: [
+        "keyword", #1033AC, #C17C41
+        "funDefName", #C57633, #F6C87B
+        "funName", #3071B9, #C17C41
+        "variable", #466D7B, #8195B7
+    ]
+    comment: {startsWith: "#"}
+    defines: [
+        "funNameRegex": /[.\-\/@#:\w]+/
+        "funNameRegexOrEmpty": /(?:/ + include("funNameRegex") + /)?/
+        "exp": [
+            // 匹配常规的$开头的变量名
+            {match: /\$(?:[a-zA-Z_]\w*|[0-9#*@?$!\-])/, 0: "variable"}
+            // 匹配${}
+            {
+                 color: "variable"
+                 start: {match: /(\$)\{/, 1: "keyword"}
+                 end: {match: /\}/}
+                 contains: [
+                     {include: "exp"}
+                     {include: "str"}
+                     {include: "num"}
+                 ]
+            }
+            // 匹配$()
+            {
+                color: "default"
+                start: {match: /(\$)(\(/ + include("funNameRegexOrEmpty") + /)/, 1: "keyword", 2: "funName"}
+                end: {match: /\)/, 0: "funName"}
+                contains: [
+                    {include: "exp"}
+                    {include: "str"}
+                    {include: "num"}
+                    {match: /(?m)(?<=[;\{\|])[ \t]*(/ + include("funNameRegex") + /)\b(?![ \t]*\+?=)/, 1: "funName"}
+                ]
+            }
+            // 匹配``
+            {
+                color: "default"
+                start: {match: /`/ + include("funNameRegexOrEmpty"), 0: "funName"}
+                end: {match: /`/, 0: "funName"}
+                contains: [
+                    {include: "exp"}
+                    {include: "str"}
+                    {include: "num"}
+                    {match: /(?m)(?<=[;\{\|])[ \t]*(/ + include("funNameRegex") + /)\b(?![ \t]*\+?=)/, 1: "funName"}
+                ]
+            }
+        ]
+        "str": [
+            {match: /\\./}
+            {
+                color: "string"
+                start: {match: /"/}
+                end: {match: /"/}
+                contains: [
+                    {match: /\\./}
+                    {include: "exp"}
+                ]
+            }
+            {
+                color: "string"
+                start: {match: /'/}
+                end: {match: /'/}
+            }
+        ]
+        "num": {match: /(?<![.+*%@\/\-])\b\d+\b(?![.+*%@\/\-])/, 0: "number"}
+    ]
+    contains: [
+        {match: /(?m)^[ \t]*#.*$/, 0: "comment"}
+        {include: "exp"}
+        {include: "str"}
+        {include: "num"}
+        {match: /(?sm)^[ \t]*:[ \t]*<<\s*-?\s*(/ + include("funNameRegex") + /)\b(.+?)(?-m)(\b\1\b|$)/, 0: "comment"}
+        {match: /(?s)<<\s*-?\s*(/ + include("funNameRegex") + /)\b(.+?)(\b\1\b|$)/, 1: "keyword", 2: "string", 3: "keyword"}
+        {match: "(?<![.,/~@%=])" + keywordsToRegex("if then else elif fi for while in do done case esac") + "(?<![.,/~@%=])", 0: "keyword"}
+        {match: /(?m)^[ \t]*(function[ \t]+)?([\w\-]+)[ \t]*\(/, 1: "keyword", 2: "funDefName"}
+        {match: /(?m)(?<=(?:[;\{\|]|(?<!\\\n)^))[ \t]*(/ + include("funNameRegex") + /)\b(?![ \t]*\+?=)/, 1: "funName"}
+    ]
+}

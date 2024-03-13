@@ -1,0 +1,38 @@
+{
+    name: ["Bat", ".bat"]
+    colors: [
+        "path" > "type"
+    ]
+    comment: {startsWith: "::"}
+    ignoreCase: true
+    contains: [
+        {match: /rem .*/, 0: "comment"}
+        {
+            color: "string"
+            start: {match: /"/}
+            end: {match: /"|$/}
+            contains: [
+                {builtin: #ESCAPED_CHAR#}
+        		{match: /!\w+!/, 0: "constant"}
+                {match: /%%\w+/, 0: "constant"}
+                {match: /%[\w:,~\-=]+%/, 0: "constant"}
+                {match: "/\\?|%\\d|%~dp0", 0: "constant"}
+			]
+		}
+		{match: /!\w+!/, 0: "constant"}
+		{match: /%%\w+/, 0: "constant"}
+		{match: /%[\w:,~\-=]+%/, 0: "constant"}
+		{match: "/\\?|%\\d|%~dp0", 0: "constant"}
+		{match: keywordsToRegex(
+		        "ver cmd set if not else echo for in do shift call type find findstr copy pause start exist errorlevel"
+		        "choice continue break ping telnet color random exit shutdown reg regedit setlocal del rd rmdir mkdir"
+		        "md dir cls ren rename title taskkill tasklist busybox cd timeout adb fastboot java python pip endlocal"
+		        "wget curl move date mode assoc ftype pushd popd attrib mklink"
+            ), 0: "keyword"}
+		{match: /\b(goto)\b(?:[ \t]+(\w+))?/, 1: "keyword", 2: "label"}
+		{match: /:\w+/, 0: "label"}
+		{match: /@\w+/, 0: "meta"}
+		{match: /\b(EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==/, 0: "operator"}
+        {match: /[\w\-\u0080-\uffff#$.,]*(\\[\w\-\u0080-\uffff#$.,]+)+/, 0: "path"}
+	]
+}

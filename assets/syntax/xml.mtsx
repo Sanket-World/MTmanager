@@ -1,0 +1,34 @@
+{
+    name: ["XML", ".xml", ".svg", ".kml", ".plist"]
+    colors: [
+        "tagNameDef", #000000, #E8BF6A
+    ]
+    comment: {startsWith: "<!--", endsWith: "-->"}
+    contains: [
+        {
+            start: {match: "<\\??([^/>\\s]+)", 0: "tagNameDef", 1: "tagName"}
+            end: {match: "[?/]?>|$", 0: "tagNameDef"}
+            contains: [
+                // 默认的comment仅在最外层进行匹配，要在start与end之间匹配注释的话需要单独添加规则
+                {match: /(?s)<!--.*?(-->|$)/, 0: "comment"}
+                {match: /(xmlns:)([^='"\s]+)/, 1: "attrName", 2: "namespace"}
+    			{match: /(?:([^='"<\/>\s]+)(:))?([^='"<\/>\s]+)/, 1: "namespace", 2: "attrName", 3: "attrName"}
+				{match: /=/, 0: "string"}
+				{
+				    start: {match: /"/}
+				    end: {match: /"/}
+				    color: "string"
+				}
+				{
+                    start: {match: /'/}
+                    end: {match: /'/}
+                    color: "string"
+                }
+			]
+		}
+		{
+			match: "</\\s*([^>\\s]+)\\s*>", 0: "tagNameDef", 1: "tagName"
+		}
+	]
+	codeFormatter: #BUILT_IN_XML_FORMATTER#
+}

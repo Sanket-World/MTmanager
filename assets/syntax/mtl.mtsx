@@ -1,0 +1,15 @@
+{
+    name: ["MT-Plugin-Language", ".mtl"]
+    hide: true
+    comment: {startsWith: "#"}
+    contains: [
+        {
+            start: {match: /(?m)^([^\s:]+: )/, 0: "propKey"}
+            end: {match: /(?m)$/}
+            color: "propVal"
+            contains: [
+                {builtin: #ESCAPED_CHAR#}
+            ]
+        }
+    ]
+}

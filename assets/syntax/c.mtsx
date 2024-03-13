@@ -1,0 +1,20 @@
+{
+    name: ["C", ".c", ".h"]
+    colors: [
+        "preprocessor" > "meta"
+    ]
+    comment: {startsWith: "//"}
+    comment: {startsWith: "/*", endsWith: "*/"}
+    contains: [
+        {builtin: #C_QUOTED_STRING#}
+        {builtin: #C_NUMBER#}
+        {match: /(?m)^[ \t]*(#[ \t]*include)(\s*<.*?>)/, 1: "preprocessor", 2: "string"}
+        {match: /(?m)^[ \t]*#[ \t]*\S+/, 0: "preprocessor"}
+        {match: keywordsToRegex(
+                "auto break case char const continue default do double else enum extern float for"
+                "goto if int long register return short signed sizeof static struct switch typedef"
+                "union unsigned void volatile while inline restrict _Bool _Complex _Imaginary"
+                "_Alignas _Alignof _Atomic _Static_assert _Noreturn _Thread_local _Generic"
+            ), 0: "keyword"}
+    ]
+}

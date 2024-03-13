@@ -1,0 +1,7 @@
+{
+    name: ["MT-Dictionary", ".mtd"]
+    hide: true
+    contains: [
+        {builtin: #JAVA_DOUBLE_QUOTED_STRING#}
+    ]
+}

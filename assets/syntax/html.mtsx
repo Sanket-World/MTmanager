@@ -1,0 +1,44 @@
+{
+    name: ["HTML", ".html", ".htm"]
+    ignoreCase: true
+    comment: {startsWith: "<!--", endsWith: "-->"}
+    defines: [
+        "startTagContains": [
+            {match: /(?s)<!--.*?(-->|$)/, 0: "comment"}
+            {match: /(xmlns:)([^='"\s]+)/, 1: "attrName", 2: "namespace"}
+            {match: /(?:([^='"<\/>\s]+)(:))?([^='"<\/>\s]+)/, 1: "namespace", 2: "attrName", 3: "attrName"}
+            {match: /=/, 0: "string"}
+            {
+                start: {match: /"/}
+                end: {match: /"/}
+                color: "string"
+            }
+            {
+                start: {match: /'/}
+                end: {match: /'/}
+                color: "string"
+            }
+        ]
+    ]
+    contains: [
+        {
+            // 被 <script> </script> 包裹起来的代码不要高亮
+            start:  {
+                start: {match: /<\s*(script)\b/, 1: "tagName"}
+                end: {match: ">|$"}
+                contains: [ {include: "startTagContains"} ]
+            }
+            end: {match: "</\\s*(script)\\s*>", 1: "tagName"}
+        }
+        {
+            start: {match: "<\\??([^/>\\s]+)", 1: "tagName"}
+            end: {match: "[?/]?>|$"}
+            contains: [ {include: "startTagContains"} ]
+        }
+        {
+            match: "</\\s*([^>\\s]+)\\s*>", 1: "tagName"
+        }
+    ]
+    codeFormatter: #BUILT_IN_HTML_FORMATTER#
+    codeShrinker: #BUILT_IN_HTML_SHRINKER#
+}

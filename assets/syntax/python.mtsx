@@ -1,0 +1,76 @@
+{
+    name: ["Python", ".py"]
+    comment: {startsWith: "#"}
+    contains: {
+        // 多行注释
+        {
+            color: "comment"
+            start : {match: /(?m)^\s*"""/}
+            end: {match: /"""|$/}
+            contains: [
+                {match: /\\./}
+            ]
+        }
+        {
+            color: "comment"
+            start : {match: /(?m)^\s*'''/}
+            end: {match: /'''|$/}
+            contains: [
+                {match: /\\./}
+            ]
+        }
+        // 字符串
+        {
+            color: "string"
+            start : {match: /"""/}
+            end: {match: /"""|$/}
+            contains: [
+                {builtin: #JAVA_ESCAPED_CHAR#}
+            ]
+        }
+        {
+            color: "string"
+            start : {match: /'''/}
+            end: {match: /'''|$/}
+            contains: [
+                {builtin: #JAVA_ESCAPED_CHAR#}
+            ]
+        }
+        {
+            color: "string"
+            start : {match: /"/}
+            end: {match: /(?m)"|$/}
+            contains: [
+                {match: /(?s)\\(([0-3]?[0-7])?[0-7]|u[0-9a-fA-F]{4}|.)/, 0: "strEscape"}
+            ]
+        }
+        {
+            color: "string"
+            start : {match: /'/}
+            end: {match: /(?m)'|$/}
+            contains: [
+                {match: /(?s)\\(([0-3]?[0-7])?[0-7]|u[0-9a-fA-F]{4}|.)/, 0: "strEscape"}
+            ]
+        }
+        {number: "2|8|10|16|F|E|_", fSuffixes: "J"}
+        {match: keywordsToRegex(
+                "int float long complex str unicode list tuple bytearray buffer"
+                "xrange set frozenset dict bool"
+            ), 0: "type"}
+        {match: keywordsToRegex(
+                "True False None self NotImplemented Ellipsis __debug__ __file__ and del from not while"
+                "as elif global or with assert else if pass yield break except import print class exec"
+                "in raise continue finally is return def for lambda try"
+            ), 0: "keyword"}
+        {match: keywordsToRegex(
+                "ArithmeticError AssertionError AttributeError BaseException DeprecationWarning"
+                "EnvironmentError EOFError Exception FloatingPointError FutureWarning GeneratorExit"
+                "IOError ImportError ImportWarning IndexError KeyError KeyboardInterrupt LookupError"
+                "MemoryError NameError NotImplementedError OSError OverflowError PendingDeprecationWarning"
+                "ReferenceError RuntimeError RuntimeWarning StandardError StopIteration SyntaxError"
+                "SyntaxWarning SystemError SystemExit TypeError UnboundLocalError UserWarning UnicodeError"
+                "UnicodeWarning UnicodeEncodeError UnicodeDecodeError UnicodeTranslateError ValueError"
+                "Warning WindowsError ZeroDivisionError"
+            ), 0: "keyword2"}
+    }
+}
