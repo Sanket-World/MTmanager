@@ -1,0 +1,56 @@
+{
+  "apkFileName": "MT-Manager[dlandroid.com]_src.apk",
+  "PackageInfo": {
+    "forcedPackageId": "127",
+    "renameManifestPackage": null
+  },
+  "doNotCompress": [
+    "png",
+    "jpg",
+    "resources.arsc",
+    "assets/testkey.pk8",
+    "assets/7"
+  ],
+  "compressionType": false,
+  "sparseResources": false,
+  "version": "2.4.0-240227",
+  "sharedLibrary": false,
+  "VersionInfo": {
+    "versionName": "2.15.0",
+    "versionCode": "24030663"
+  },
+  "UsesFramework": {
+    "ids": [1],
+    "tag": null
+  },
+  "unknownFiles": {
+    "google/protobuf/duration.proto": "8",
+    "com/sun/tools/javac/resources/javac_zh_CN.properties": "8",
+    "DebugProbesKt.bin": "8",
+    "google/protobuf/type.proto": "8",
+    "google/protobuf/wrappers.proto": "8",
+    "com/sun/tools/javac/resources/compiler_zh_CN.properties": "8",
+    "org/bouncycastle/x509/CertPathReviewerMessages_de.properties": "8",
+    "google/protobuf/descriptor.proto": "8",
+    "com/sun/tools/javac/resources/javac.properties": "8",
+    "com/sun/tools/javac/resources/legacy.properties": "8",
+    "google/protobuf/any.proto": "8",
+    "com/sun/tools/javac/resources/compiler.properties": "8",
+    "google/protobuf/api.proto": "8",
+    "google/protobuf/field_mask.proto": "8",
+    "org/bouncycastle/x509/CertPathReviewerMessages.properties": "8",
+    "google/protobuf/source_context.proto": "8",
+    "kotlin-tooling-metadata.json": "8",
+    "google/protobuf/empty.proto": "8",
+    "google/protobuf/struct.proto": "8",
+    "google/protobuf/timestamp.proto": "8",
+    "okhttp3/internal/publicsuffix/publicsuffixes.gz": "0",
+    "META-INF/com/android/build/gradle/app-metadata.properties": "8"
+  },
+  "apkFilePath": "/storage/emulated/0/Download/MT-Manager[dlandroid.com].apk",
+  "isFrameworkApk": false,
+  "sdkInfo": {
+    "minSdkVersion": "21",
+    "targetSdkVersion": "30"
+  }
+}
